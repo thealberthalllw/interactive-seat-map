@@ -1,1 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albert Hall Seat Viewer</title>
 
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Albert Hall Seat Viewer</h1>
+    <p>Click any seat to see the view.</p>
+</header>
+
+<div class="container">
+
+    <div class="map-panel">
+
+        <div class="tabs">
+            <button class="tab active" data-map="stalls">Stalls</button>
+            <button class="tab" data-map="circle">Circle</button>
+        </div>
+
+        <div id="svgContainer">
+            Loading seating plan...
+        </div>
+
+    </div>
+
+    <aside class="info-panel">
+
+        <h2 id="seatTitle">No seat selected</h2>
+
+        <div class="photo">
+            <img id="seatPhoto"
+                 src="https://placehold.co/600x400?text=Select+a+Seat"
+                 alt="Seat View">
+        </div>
+
+        <p id="seatInfo">
+            Click a seat on the plan.
+        </p>
+
+    </aside>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
