@@ -3,48 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Albert Hall Interactive Seat Map</title>
+    <title>Albert Hall - View From Your Seat</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-    <h1>The Albert Hall Interactive Seat Map</h1>
-    <p>Click any seat to see the view.</p>
+    <h1>Albert Hall</h1>
+    <p>Click any seat to view the view from that seat.</p>
 </header>
 
-<div class="container">
+<div id="mapContainer">
+    Loading seating plan...
+</div>
 
-    <div class="map-panel">
+<div id="lightbox" class="lightbox">
 
-        <div class="tabs">
-            <button class="tab active" data-map="stalls">Stalls</button>
-            <button class="tab" data-map="circle">Circle</button>
-            <button class="tab" data-map="circle">Circle</button>
-        </div>
+    <div class="lightbox-content">
 
-        <div id="svgContainer">
-            Loading seating plan...
-        </div>
+        <button id="closeLightbox">&times;</button>
+
+        <h2 id="seatTitle"></h2>
+
+        <img id="seatPhoto"
+             src="https://placehold.co/1000x700?text=Photo+Coming+Soon">
+
+        <p id="seatInfo"></p>
 
     </div>
-
-    <aside class="info-panel">
-
-        <h2 id="seatTitle">No seat selected</h2>
-
-        <div class="photo">
-            <img id="seatPhoto"
-                 src="https://placehold.co/600x400?text=Select+a+Seat"
-                 alt="Seat View">
-        </div>
-
-        <p id="seatInfo">
-            Click a seat on the plan.
-        </p>
-
-    </aside>
 
 </div>
 
