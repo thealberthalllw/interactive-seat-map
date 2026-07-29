@@ -1,117 +1,74 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f3ef;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f1ea;
-    color: #222;
+header{
+    background:#5a1e2b;
+    color:white;
+    padding:15px;
+    text-align:center;
 }
 
-header {
-    background: #A60019;
-    color: white;
-    padding: 20px;
-    text-align: center;
+#mapContainer{
+    padding:20px;
+    text-align:center;
 }
 
-header p {
-    margin-top: 8px;
-    opacity: 0.85;
+svg{
+    width:100%;
+    height:auto;
 }
 
-.container {
-    display: flex;
-    height: calc(100vh - 110px);
+.seat{
+    cursor:pointer;
+    transition:.2s;
 }
 
-.map-panel {
-    flex: 2;
-    background: white;
-    border-right: 1px solid #ddd;
-    overflow: auto;
+.seat:hover{
+    fill:#f4c542 !important;
 }
 
-.info-panel {
-    width: 360px;
-    background: #fafafa;
-    padding: 25px;
+.selected{
+    fill:#00a676 !important;
 }
 
-.info-panel h2 {
-    margin-bottom: 20px;
+.lightbox{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
 }
 
-.photo {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background: #a60019;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
+.lightbox.show{
+    display:flex;
 }
 
-.photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.lightbox-content{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    width:min(900px,95%);
+    text-align:center;
+    position:relative;
 }
 
-.tabs {
-    display: flex;
-    gap: 10px;
-    padding: 15px;
-    background: white;
-    border-bottom: 1px solid #ddd;
+.lightbox-content img{
+    width:100%;
+    max-height:70vh;
+    object-fit:contain;
 }
 
-.tab {
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 6px;
-    background: #ddd;
-    font-size: 15px;
-}
-
-.tab.active {
-    background: #F95E54;
-    color: white;
-}
-
-#svgContainer {
-    padding: 20px;
-}
-
-svg {
-    width: 100%;
-    height: auto;
-}
-
-.seat {
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.seat:hover {
-    fill: #F95E54 !important;
-}
-
-.selected {
-    fill: #A60019 !important;
-}
-
-@media (max-width: 900px) {
-
-    .container {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .info-panel {
-        width: 100%;
-    }
-
+#closeLightbox{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:36px;
+    border:none;
+    background:none;
+    cursor:pointer;
 }
