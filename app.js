@@ -45,6 +45,9 @@ function selectSeat(seat){
     seat.classList.add("selected");
 
     const seatId = seat.id;
+    const url = new URL(window.location);
+    url.searchParams.set("seat", seatId);
+    history.replaceState({}, "", url);
 
     // Friendly display name
     let displayName = `Seat ${seatId}`;
@@ -81,19 +84,40 @@ function selectSeat(seat){
 
 // Close button
 closeButton.onclick = () => {
+
     lightbox.classList.remove("show");
+
+    const url = new URL(window.location);
+
+    url.searchParams.delete("seat");
+
+    history.replaceState({}, "", url);
+
 };
 
 // Click outside image
 lightbox.onclick = (e) => {
     if (e.target === lightbox) {
         lightbox.classList.remove("show");
-    }
+
+    const url = new URL(window.location);
+
+    url.searchParams.delete("seat");
+
+    history.replaceState({}, "", url);
+
 };
 
 // ESC key
 document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
         lightbox.classList.remove("show");
-    }
+
+    const url = new URL(window.location);
+
+    url.searchParams.delete("seat");
+
+    history.replaceState({}, "", url);
+
+}
 });
