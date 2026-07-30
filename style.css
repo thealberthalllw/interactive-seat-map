@@ -72,16 +72,3 @@ svg{
     background:none;
     cursor:pointer;
 }
-
-#seatTitle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.wheelchair-icon {
-    width: 24px;
-    height: 24px;
-    fill: #005bbb;
-}
