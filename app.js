@@ -53,7 +53,7 @@ function selectSeat(seat){
 
     img.onerror = function(){
 
-        img.src = "photos/image-coming-soon.png";
+        img.src = `photos/image-coming-soon.png`;
 
         document.getElementById("seatInfo").textContent =
             `No photo has been added yet for ${seatId}.`;
