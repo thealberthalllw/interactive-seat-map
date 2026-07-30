@@ -1,70 +1,94 @@
-const svgContainer = document.getElementById("svgContainer");
+const mapContainer = document.getElementById("mapContainer");
+const lightbox = document.getElementById("lightbox");
+const closeButton = document.getElementById("closeLightbox");
 
-const maps = {
-    stalls: "svg/stalls.svg",
-    circle: "svg/circle.svg"
+let selectedSeat = null;
+
+// Load the SVG
+fetch("svg/auditorium.svg")
+  .then(response => response.text())
+  .then(svg => {
+    mapContainer.innerHTML = svg;
+    initialiseSeats();
+  });
+
+function initialiseSeats() {
+
+    // IDs like A1, B12, AA3 etc.
+    const seatPattern = /^[A-Z]+\d+$/;
+
+    const allElements = mapContainer.querySelectorAll("[id]");
+
+    allElements.forEach(element => {
+
+        if (!seatPattern.test(element.id)) return;
+
+        element.classList.add("seat");
+
+        element.addEventListener("click", () => {
+            selectSeat(element);
+        });
+
+    });
+
+}
+
+function selectSeat(seat){
+
+    if(selectedSeat){
+        selectedSeat.classList.remove("selected");
+    }
+
+    selectedSeat = seat;
+
+    seat.classList.add("selected");
+
+    const seatId = seat.id;
+
+    document.getElementById("seatTitle").textContent = seatId;
+    document.getElementById("seatInfo").textContent = "Loading image...";
+
+    const img = document.getElementById("seatPhoto");
+
+    img.src = `photos/${seatId}.jpg`;
+
+    img.onerror = function(){
+
+        img.src = "https://placehold.co/1000x700?text=Photo+Coming+Soon";
+
+        document.getElementById("seatInfo").textContent =
+            `No photo has been added yet for ${seatId}.`;
+
+    }
+
+    img.onload = function(){
+
+        document.getElementById("seatInfo").textContent =
+            `View from seat ${seatId}`;
+
+    }
+
+    lightbox.classList.add("show");
+
+}
+
+// Close button
+closeButton.onclick = () => {
+    lightbox.classList.remove("show");
 };
 
-loadMap("stalls");
+// Click outside image
+lightbox.onclick = (e) => {
+    if(e.target === lightbox){
+        lightbox.classList.remove("show");
+    }
+};
 
-document.querySelectorAll(".tab").forEach(button => {
+// ESC key
+document.addEventListener("keydown", e => {
 
-    button.addEventListener("click", () => {
-
-        document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
-        button.classList.add("active");
-
-        loadMap(button.dataset.map);
-
-    });
+    if(e.key === "Escape"){
+        lightbox.classList.remove("show");
+    }
 
 });
-
-function loadMap(map) {
-
-    fetch(maps[map])
-        .then(response => response.text())
-        .then(svg => {
-
-            svgContainer.innerHTML = svg;
-
-            prepareSeats();
-
-        });
-
-}
-
-function prepareSeats() {
-
-    const seats = svgContainer.querySelectorAll("path, circle, ellipse");
-
-    seats.forEach((seat, index) => {
-
-        seat.classList.add("seat");
-
-        if (!seat.id) {
-            seat.id = "Seat " + (index + 1);
-        }
-
-        seat.addEventListener("click", () => {
-
-            document.querySelectorAll(".selected").forEach(s =>
-                s.classList.remove("selected")
-            );
-
-            seat.classList.add("selected");
-
-            document.getElementById("seatTitle").textContent = seat.id;
-
-            document.getElementById("seatInfo").textContent =
-                "Photo coming soon.";
-
-            document.getElementById("seatPhoto").src =
-                "https://placehold.co/600x400?text=" +
-                encodeURIComponent(seat.id);
-
-        });
-
-    });
-
-}
