@@ -5,7 +5,7 @@ body{
 }
 
 header{
-    background:#5a1e2b;
+    background:#a60019;
     color:white;
     padding:15px;
     text-align:center;
@@ -27,11 +27,11 @@ svg{
 }
 
 .seat:hover{
-    fill:#f4c542 !important;
+    fill:#F95E54 !important;
 }
 
 .selected{
-    fill:#00a676 !important;
+    fill:#a60019 !important;
 }
 
 .lightbox{
