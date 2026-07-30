@@ -18,44 +18,50 @@ fetch("svg/auditorium.svg")
 
 function initialiseSeats() {
 
-    // Select all elements with IDs inside the SVG
-    const allElements = mapContainer.querySelectorAll("[id]");
+    const ignore = [
+        "stage",
+        "background",
+        "auditorium"
+    ];
 
-    console.log("Found elements with IDs:", allElements.length);
+    const allElements = mapContainer.querySelectorAll("[id]");
 
     allElements.forEach(element => {
 
-        console.log(element.id);
+        const id = element.id.trim();
 
-        element.style.cursor = "pointer";
+        if (!id) return;
+
+        if (ignore.includes(id.toLowerCase())) return;
+
+        element.classList.add("seat");
 
         element.addEventListener("click", () => {
-            console.log("Clicked:", element.id);
-            selectSeat(element);   // ← FIXED: now seats actually open the lightbox
+            selectSeat(element);
         });
+
     });
+
 }
 
-function selectSeat(seat) {
+function selectSeat(seat){
 
-    // Remove previous selection
-    if (selectedSeat) {
+    if(selectedSeat){
         selectedSeat.classList.remove("selected");
     }
 
     selectedSeat = seat;
+
     seat.classList.add("selected");
 
     const seatId = seat.id;
 
+    // Create a friendly display name
     let displayName = seatId;
-    let photoName = seatId;
 
-    // Special handling for wheelchair spaces
     if (seatId.endsWith("-Wheelchair")) {
         const number = seatId.replace("-Wheelchair", "");
         displayName = `Wheelchair Space ${number}`;
-        photoName = number;
     }
 
     document.getElementById("seatTitle").textContent = displayName;
@@ -63,30 +69,28 @@ function selectSeat(seat) {
 
     const img = document.getElementById("seatPhoto");
 
-    // Try JPG first
-    img.src = `photos/${photoName}.jpg`;
+    // Use the original ID as the filename
+    img.src = `photos/${seatId}.jpg`;
 
     img.onerror = function () {
-      img.onerror = null;
-      img.src = "photos/image-coming-soon.png";
 
-    document.getElementById("seatInfo").textContent =
-        `No photo has been added yet for ${displayName}.`;
-};
-
+        img.src = "photos/image-coming-soon.png";
 
         document.getElementById("seatInfo").textContent =
             `No photo has been added yet for ${displayName}.`;
+
     };
 
     img.onload = function () {
+
         document.getElementById("seatInfo").textContent =
             `View from ${displayName}`;
+
     };
 
     lightbox.classList.add("show");
-}
 
+}
 // Close button
 closeButton.onclick = () => {
     lightbox.classList.remove("show");
