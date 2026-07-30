@@ -17,6 +17,19 @@ fetch("svg/auditorium.svg")
     .then(svg => {
         mapContainer.innerHTML = svg;
         initialiseSeats();
+        const params = new URLSearchParams(window.location.search);
+
+const seat = params.get("seat");
+
+if(seat){
+
+    const element = document.getElementById(seat);
+
+    if(element){
+        selectSeat(element);
+    }
+
+}
     });
 
 function initialiseSeats() {
