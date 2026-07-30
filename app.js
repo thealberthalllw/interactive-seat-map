@@ -10,18 +10,24 @@ fetch("svg/auditorium.svg")
   .then(svg => {
     mapContainer.innerHTML = svg;
     initialiseSeats();
+  })
+  .catch(error => {
+    mapContainer.innerHTML = "<p>Unable to load seating plan.</p>";
+    console.error(error);
   });
 
 function initialiseSeats() {
 
-    // IDs like A1, B12, AA3 etc.
-    const seatPattern = /^[A-Z]+\d+$/;
+    // Match normal seats and wheelchair spaces
+    const seatPattern = /^[A-Z]+\\d+(-Wheelchair)?$/;
 
     const allElements = mapContainer.querySelectorAll("[id]");
 
     allElements.forEach(element => {
 
-        if (!seatPattern.test(element.id)) return;
+        const id = element.id.trim();
+
+        if (!seatPattern.test(id)) return;
 
         element.classList.add("seat");
 
@@ -33,24 +39,28 @@ function initialiseSeats() {
 
 }
 
-function selectSeat(seat){
+function selectSeat(seat) {
 
-    if(selectedSeat){
+    if (selectedSeat) {
         selectedSeat.classList.remove("selected");
     }
 
     selectedSeat = seat;
-
     seat.classList.add("selected");
 
     const seatId = seat.id;
 
-    // Create a friendly display name
     let displayName = seatId;
+    let photoName = seatId;
 
+    // Special handling for wheelchair spaces
     if (seatId.endsWith("-Wheelchair")) {
+
         const number = seatId.replace("-Wheelchair", "");
+
         displayName = `Wheelchair Space ${number}`;
+        photoName = number;
+
     }
 
     document.getElementById("seatTitle").textContent = displayName;
@@ -58,11 +68,12 @@ function selectSeat(seat){
 
     const img = document.getElementById("seatPhoto");
 
-    // Use the original ID as the filename
-    img.src = `photos/${seatId}.jpg`;
+    // Try JPG first
+    img.src = `photos/${photoName}.jpg`;
 
     img.onerror = function () {
 
+        img.onerror = null;
         img.src = "photos/image coming soon.png";
 
         document.getElementById("seatInfo").textContent =
@@ -88,16 +99,14 @@ closeButton.onclick = () => {
 
 // Click outside image
 lightbox.onclick = (e) => {
-    if(e.target === lightbox){
+    if (e.target === lightbox) {
         lightbox.classList.remove("show");
     }
 };
 
 // ESC key
 document.addEventListener("keydown", e => {
-
-    if(e.key === "Escape"){
+    if (e.key === "Escape") {
         lightbox.classList.remove("show");
     }
-
 });
