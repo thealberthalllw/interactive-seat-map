@@ -10,29 +10,18 @@ fetch("svg/auditorium.svg")
   .then(svg => {
     mapContainer.innerHTML = svg;
     initialiseSeats();
-  })
-  .catch(error => {
-    mapContainer.innerHTML = "<p>Unable to load seating plan.</p>";
-    console.error(error);
   });
 
 function initialiseSeats() {
 
-    const ignore = [
-        "stage",
-        "background",
-        "auditorium"
-    ];
+    // IDs like A1, B12, AA3 etc.
+    const seatPattern = /^[A-Z]+\d+$/;
 
     const allElements = mapContainer.querySelectorAll("[id]");
 
     allElements.forEach(element => {
 
-        const id = element.id.trim();
-
-        if (!id) return;
-
-        if (ignore.includes(id.toLowerCase())) return;
+        if (!seatPattern.test(element.id)) return;
 
         element.classList.add("seat");
 
@@ -56,56 +45,50 @@ function selectSeat(seat){
 
     const seatId = seat.id;
 
-    // Create a friendly display name
-    let displayName = seatId;
-
-    if (seatId.endsWith("-Wheelchair")) {
-        const number = seatId.replace("-Wheelchair", "");
-        displayName = `Wheelchair Space ${number}`;
-    }
-
-    document.getElementById("seatTitle").textContent = displayName;
+    document.getElementById("seatTitle").textContent = seatId;
     document.getElementById("seatInfo").textContent = "Loading image...";
 
     const img = document.getElementById("seatPhoto");
 
-    // Use the original ID as the filename
     img.src = `photos/${seatId}.jpg`;
 
-    img.onerror = function () {
+    img.onerror = function(){
 
-        img.src = "photos/image-coming-soon.png";
-
-        document.getElementById("seatInfo").textContent =
-            `No photo has been added yet for ${displayName}.`;
-
-    };
-
-    img.onload = function () {
+        img.src = "https://placehold.co/1000x700?text=Photo+Coming+Soon";
 
         document.getElementById("seatInfo").textContent =
-            `View from ${displayName}`;
+            `No photo has been added yet for ${seatId}.`;
 
-    };
+    }
+
+    img.onload = function(){
+
+        document.getElementById("seatInfo").textContent =
+            `View from seat ${seatId}`;
+
+    }
 
     lightbox.classList.add("show");
 
 }
+
 // Close button
 closeButton.onclick = () => {
     lightbox.classList.remove("show");
 };
 
-// Click outside image closes lightbox
+// Click outside image
 lightbox.onclick = (e) => {
-    if (e.target === lightbox) {
+    if(e.target === lightbox){
         lightbox.classList.remove("show");
     }
 };
 
-// ESC key closes lightbox
+// ESC key
 document.addEventListener("keydown", e => {
-    if (e.key === "Escape") {
+
+    if(e.key === "Escape"){
         lightbox.classList.remove("show");
     }
+
 });
