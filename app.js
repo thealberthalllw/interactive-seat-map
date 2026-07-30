@@ -14,21 +14,14 @@ fetch("svg/auditorium.svg")
 
 function initialiseSeats() {
 
-    const ignore = [
-        "stage",
-        "background",
-        "auditorium"
-    ];
+    // IDs like A1, B12, AA3 etc.
+    const seatPattern = /^[A-Z]+\d+$/;
 
     const allElements = mapContainer.querySelectorAll("[id]");
 
     allElements.forEach(element => {
 
-        const id = element.id.trim();
-
-        if (!id) return;
-
-        if (ignore.includes(id.toLowerCase())) return;
+        if (!seatPattern.test(element.id)) return;
 
         element.classList.add("seat");
 
@@ -39,7 +32,6 @@ function initialiseSeats() {
     });
 
 }
-
 function selectSeat(seat){
 
     if(selectedSeat){
