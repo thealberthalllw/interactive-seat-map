@@ -54,7 +54,7 @@ function selectSeat(seat){
 
     img.onerror = function(){
 
-        img.src = "https://placehold.co/1000x700?text=Photo+Coming+Soon";
+        img.src = "photos/image-coming-soon.png";
 
         document.getElementById("seatInfo").textContent =
             `No photo has been added yet for ${seatId}.`;
