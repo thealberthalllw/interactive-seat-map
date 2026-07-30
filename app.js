@@ -1,6 +1,12 @@
 const mapContainer = document.getElementById("mapContainer");
 const lightbox = document.getElementById("lightbox");
 const closeButton = document.getElementById("closeLightbox");
+const wheelchairSpaces = {
+    "C191": "Wheelchair Space",
+    "E191": "Wheelchair Space",
+    "G191": "Wheelchair Space",
+    "I191": "Wheelchair Space"
+};
 
 let selectedSeat = null;
 
@@ -44,7 +50,16 @@ function selectSeat(seat){
 
     const seatId = seat.id;
 
-    document.getElementById("seatTitle").textContent = seatId;
+    // Friendly display name
+    let displayName = `Seat ${seatId}`;
+    let infoText = `View from Seat ${seatId}`;
+
+    if (wheelchairSpaces[seatId]) {
+        displayName = `♿ Wheelchair Space ${seatId}`;
+        infoText = `View from Wheelchair Space ${seatId}`;
+    }
+
+    document.getElementById("seatTitle").textContent = displayName;
     document.getElementById("seatInfo").textContent = "Loading image...";
 
     const img = document.getElementById("seatPhoto");
@@ -52,24 +67,20 @@ function selectSeat(seat){
     img.src = `photos/${seatId}.jpg`;
 
     img.onerror = function () {
-      // Prevent the PNG load from triggering the normal onload message
-      img.onload = null;
-      
-      img.src = `photos/image-coming-soon.jpg`;
-      
-      document.getElementById("seatInfo").textContent =
-        `No photo has been added yet for ${seatId}.`;
-};
+        // Prevent the placeholder from triggering onload
+        img.onload = null;
 
-    img.onload = function(){
+        img.src = "photos/image-coming-soon.jpg";
 
         document.getElementById("seatInfo").textContent =
-            `View from Seat ${seatId}`;
+            `No photo has been added yet for ${displayName}.`;
+    };
 
-    }
+    img.onload = function () {
+        document.getElementById("seatInfo").textContent = infoText;
+    };
 
     lightbox.classList.add("show");
-
 }
 
 // Close button
