@@ -18,24 +18,27 @@ fetch("svg/auditorium.svg")
 
 function initialiseSeats() {
 
+    // Select all elements with IDs inside the SVG
     const allElements = mapContainer.querySelectorAll("[id]");
 
     console.log("Found elements with IDs:", allElements.length);
 
     allElements.forEach(element => {
+
         console.log(element.id);
 
         element.style.cursor = "pointer";
 
         element.addEventListener("click", () => {
             console.log("Clicked:", element.id);
+            selectSeat(element);   // ← FIXED: now seats actually open the lightbox
         });
     });
-
 }
 
 function selectSeat(seat) {
 
+    // Remove previous selection
     if (selectedSeat) {
         selectedSeat.classList.remove("selected");
     }
@@ -50,12 +53,9 @@ function selectSeat(seat) {
 
     // Special handling for wheelchair spaces
     if (seatId.endsWith("-Wheelchair")) {
-
         const number = seatId.replace("-Wheelchair", "");
-
         displayName = `Wheelchair Space ${number}`;
         photoName = number;
-
     }
 
     document.getElementById("seatTitle").textContent = displayName;
@@ -67,24 +67,19 @@ function selectSeat(seat) {
     img.src = `photos/${photoName}.jpg`;
 
     img.onerror = function () {
-
         img.onerror = null;
         img.src = "photos/image coming soon.png";
 
         document.getElementById("seatInfo").textContent =
             `No photo has been added yet for ${displayName}.`;
-
     };
 
     img.onload = function () {
-
         document.getElementById("seatInfo").textContent =
             `View from ${displayName}`;
-
     };
 
     lightbox.classList.add("show");
-
 }
 
 // Close button
@@ -92,14 +87,14 @@ closeButton.onclick = () => {
     lightbox.classList.remove("show");
 };
 
-// Click outside image
+// Click outside image closes lightbox
 lightbox.onclick = (e) => {
     if (e.target === lightbox) {
         lightbox.classList.remove("show");
     }
 };
 
-// ESC key
+// ESC key closes lightbox
 document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
         lightbox.classList.remove("show");
