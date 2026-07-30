@@ -72,3 +72,17 @@ svg{
     background:none;
     cursor:pointer;
 }
+
+#tooltip{
+    position:fixed;
+    display:none;
+    background:#a60019;
+    color:white;
+    padding:8px 12px;
+    border-radius:6px;
+    font-size:14px;
+    pointer-events:none;
+    z-index:5000;
+    box-shadow:0 3px 8px rgba(0,0,0,.3);
+    white-space:nowrap;
+}
