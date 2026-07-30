@@ -7,6 +7,7 @@ const wheelchairSpaces = {
     "G191": "Wheelchair Space",
     "I191": "Wheelchair Space"
 };
+const tooltip = document.getElementById("tooltip");
 
 let selectedSeat = null;
 
@@ -31,9 +32,35 @@ function initialiseSeats() {
 
         element.classList.add("seat");
 
-        element.addEventListener("click", () => {
-            selectSeat(element);
-        });
+        element.addEventListener("mouseenter", () => {
+
+    if (wheelchairSpaces[element.id]) {
+        tooltip.textContent = `Wheelchair Space ${element.id} ♿`;
+    } else {
+        tooltip.textContent = `Seat ${element.id}`;
+    }
+
+    tooltip.style.display = "block";
+
+});
+
+element.addEventListener("mousemove", (e) => {
+
+    tooltip.style.left = (e.clientX + 15) + "px";
+    tooltip.style.top = (e.clientY + 15) + "px";
+
+});
+
+element.addEventListener("mouseleave", () => {
+
+    tooltip.style.display = "none";
+
+});
+
+element.addEventListener("click", () => {
+    tooltip.style.display = "none";
+    selectSeat(element);
+});
 
     });
 
