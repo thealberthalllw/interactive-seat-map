@@ -45,28 +45,37 @@ function selectSeat(seat){
 
     const seatId = seat.id;
 
-    document.getElementById("seatTitle").textContent = seatId;
+    // Create a friendly display name
+    let displayName = seatId;
+
+    if (seatId.endsWith("-Wheelchair")) {
+        const number = seatId.replace("-Wheelchair", "");
+        displayName = `Wheelchair Space ${number}`;
+    }
+
+    document.getElementById("seatTitle").textContent = displayName;
     document.getElementById("seatInfo").textContent = "Loading image...";
 
     const img = document.getElementById("seatPhoto");
 
+    // Use the original ID as the filename
     img.src = `photos/${seatId}.jpg`;
 
-    img.onerror = function(){
+    img.onerror = function () {
 
-        img.src = "https://placehold.co/1000x700?text=Photo+Coming+Soon";
-
-        document.getElementById("seatInfo").textContent =
-            `No photo has been added yet for ${seatId}.`;
-
-    }
-
-    img.onload = function(){
+        img.src = "photos/image coming soon.png";
 
         document.getElementById("seatInfo").textContent =
-            `View from seat ${seatId}`;
+            `No photo has been added yet for ${displayName}.`;
 
-    }
+    };
+
+    img.onload = function () {
+
+        document.getElementById("seatInfo").textContent =
+            `View from ${displayName}`;
+
+    };
 
     lightbox.classList.add("show");
 
