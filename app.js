@@ -55,15 +55,11 @@ function selectSeat(seat){
     let infoText = `View from Seat ${seatId}`;
 
     if (wheelchairSpaces[seatId]) {
-        displayName = `<svg class="wheelchair-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M13.5 3a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-2 3h2l.8 4H17v2h-3.1l1.1 5.2A4.5 4.5 0 1 1 9 14h2a2.5 2.5 0 1 0 2.5 2.5l-1.2-5.5H9V9h3l-.5-3z"/>
-            </svg>
-            Wheelchair Space ${seatId}
-`;
-        infoText = `View from Wheelchair Space ${seatId}. <b>Please note: this is a space for a wheelchair to park, and the user to remain in the wheelchair.</b>`;
+        displayName = `♿ Wheelchair Space ${seatId}`;
+        infoText = `View from Wheelchair Space ${seatId}`;
     }
 
-    document.getElementById("seatTitle").innerHTML = displayName;
+    document.getElementById("seatTitle").textContent = displayName;
     document.getElementById("seatInfo").textContent = "Loading image...";
 
     const img = document.getElementById("seatPhoto");
