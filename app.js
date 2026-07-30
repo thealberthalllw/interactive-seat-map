@@ -18,23 +18,18 @@ fetch("svg/auditorium.svg")
 
 function initialiseSeats() {
 
-    // Match normal seats and wheelchair spaces
-    const seatPattern = /^[A-Z]+\\d+(-Wheelchair)?$/;
-
     const allElements = mapContainer.querySelectorAll("[id]");
 
+    console.log("Found elements with IDs:", allElements.length);
+
     allElements.forEach(element => {
+        console.log(element.id);
 
-        const id = element.id.trim();
-
-        if (!seatPattern.test(id)) return;
-
-        element.classList.add("seat");
+        element.style.cursor = "pointer";
 
         element.addEventListener("click", () => {
-            selectSeat(element);
+            console.log("Clicked:", element.id);
         });
-
     });
 
 }
