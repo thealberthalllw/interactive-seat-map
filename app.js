@@ -52,7 +52,7 @@ function selectSeat(seat){
 
     if (wheelchairSpaces[seatId]) {
         displayName = `Wheelchair Space ${seatId} ♿`;
-        infoText = `View from Wheelchair Space ${seatId}. <b>Please note: This is a space for a Wheelchair to park, and for the user to remain in their wheelchair.</b>`;
+        infoText = `View from Wheelchair Space ${seatId} ♿. <span style="font-weight:bold;">Please note: This is a space for a Wheelchair to park, and for the user to remain in their wheelchair.</span>`;
     }
 
     document.getElementById("seatTitle").textContent = displayName;
