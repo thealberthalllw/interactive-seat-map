@@ -51,12 +51,15 @@ function selectSeat(seat){
 
     img.src = `photos/${seatId}.jpg`;
 
-    img.onerror = function(){
-        img.src = `photos/image-coming-soon.jpg`;
-        document.getElementById("seatInfo").textContent =
-            `No photo has been added yet for ${seatId}.`;
-
-    }
+    img.onerror = function () {
+      // Prevent the PNG load from triggering the normal onload message
+      img.onload = null;
+      
+      img.src = `photos/image-coming-soon.jpg`;
+      
+      document.getElementById("seatInfo").textContent =
+        `No photo has been added yet for ${seatId}.`;
+};
 
     img.onload = function(){
 
